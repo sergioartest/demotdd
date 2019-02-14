@@ -18,7 +18,7 @@ public class RomanNumerals {
 		return romanNumber(natural,1000);
 	}
 
-	public String romanNumber(int natural, int factor){
+	private String romanNumber(int natural, int factor){
 		int number = natural;
 		if (number>3999){
 			return null;

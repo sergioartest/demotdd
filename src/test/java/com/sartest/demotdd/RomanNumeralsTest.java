@@ -25,8 +25,7 @@ public class RomanNumeralsTest {
 
 	@Test
 	public void fourToRoman(){
-		String convertToRoman = romanNumerals.convertToRoman(4);
-		assertEquals("IV",convertToRoman);
+		assertEquals("IV",romanNumerals.convertToRoman(4));
 	}
 
 	@Test

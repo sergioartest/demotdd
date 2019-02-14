@@ -1,41 +1,40 @@
 package com.sartest.demotdd;
+import java.util.HashMap;
 
 
-public class RomanNumerals{
+public class RomanNumerals {
 
-	//Symbols of Roman numerals
-	private static String ONE			="I";
-	private static String FIVE			="V";
-	private static String TEN			="X";
-	private static String FIFTY			="L";
-	private static String ONE_HUNDRED	="C";
-	private static String FIVE_HUNDRED	="D";
-	private static String TOUSAND		="M";
-
-	public String convertToRoman(int natural){
-		String result = "";
-		int number	  = natural;
-		if (number>3999)
-			return null;
-		if (number>1000){
-			result += (romanSymbols((number/1000), TOUSAND, null, null));
-			number = (number%1000);
-		}
-		if (number>100){
-			result += (romanSymbols((number/100), ONE_HUNDRED, FIVE_HUNDRED, TOUSAND));
-			number = (number%100);
-		}
-		if (number>10){
-			result += (romanSymbols((number/10), TEN, FIFTY, ONE_HUNDRED));
-			number = (number%10);
-		}
-		if (number>0){
-			result += (romanSymbols(number, ONE, FIVE, TEN));
-		}
-		return result;
+	private HashMap<Integer,String[]> romanSymbols;
+	
+	public RomanNumerals(){
+		this.romanSymbols = new HashMap<>();
+		this.romanSymbols.put(1,	new String[]{"I", "V", "X"});
+		this.romanSymbols.put(10,	new String[]{"X", "L", "C"});
+		this.romanSymbols.put(100,	new String[]{"C", "D", "M"});
+		this.romanSymbols.put(1000,	new String[]{"M", null,null});
 	}
 
-	private String romanSymbols(int number, String unitySymbol, String fifthSymbol, String tenthSymbol){
+	public String convertToRoman(int natural){
+		return romanNumber(natural,1000);
+	}
+
+	public String romanNumber(int natural, int factor){
+		int number = natural;
+		if (number>3999){
+			return null;
+		}
+		if (factor>=1){
+			if (number>=factor)
+				return (romanSymbols((number/factor),romanSymbols.get(factor)) + romanNumber((number%factor),(factor/10)));
+			return romanNumber(number, (factor/10));
+		}
+		return "";
+	}
+
+	private String romanSymbols(int number, String[] symbols){
+		String unitySymbol = symbols[0];
+		String fifthSymbol = symbols[1];
+		String tenthSymbol = symbols[2];
 		if (number<=0)
 			return null;
 		if (number<=3)
